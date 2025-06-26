@@ -5,21 +5,21 @@ AI Testcase Optimizer is a tool designed to automatically optimize test cases us
 ⸻
 
 🚀 Features
- • Automatically reduces duplicated or redundant test cases
- • Integrates with OpenAI API for intelligent analysis
- • Easy-to-run interface with CSV files
- • Flexible configuration via .env file
+  Automatically reduces duplicated or redundant test cases
+  Integrates with OpenAI API for intelligent analysis
+  Easy-to-run interface with CSV files
+  Flexible configuration via .env file
 
 ⸻
 
 📁 Project Structure
 
 AI-Testcase-Optimizer/
-├── app.py           # Main script that processes the CSV file
-├── app.env          # Local environment file for storing the API key (do not push!)
-├── .gitignore       # Ignores app.env, __pycache__, etc.
-├── Samples/         # Example input files
-└── README.md        # Project information
+ app.py           # Main script that processes the CSV file
+ app.env          # Local environment file for storing the API key (do not push!)
+ .gitignore       # Ignores app.env, __pycache__, etc.
+ Samples/         # Example input files
+ README.md        # Project information
 
 ⚙️ Setup
  1. Clone the repository:
