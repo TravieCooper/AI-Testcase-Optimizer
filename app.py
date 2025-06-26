@@ -3,7 +3,7 @@ import pandas as pd
 
 import os
 openai_api_key = os.getenv("OPENAI_API_KEY")
-df = pd.read_csv("samples/sample_testcases.csv")
+df = pd.read_csv("samples/CSV-файли/sample_testcases.csv")
 testcases = df.to_dict(orient="records")
 
 prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how to improve:\n\n"
