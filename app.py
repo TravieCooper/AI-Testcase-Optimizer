@@ -1,7 +1,8 @@
 import openai
 import pandas as pd
 
-import os openai_api_key = os.getenv("OPENAI_API_KEY")
+import os
+openai_api_key = os.getenv("OPENAI_API_KEY")
 df = pd.read_csv("samples/sample_testcases.csv")
 testcases = df.to_dict(orient="records")
 
