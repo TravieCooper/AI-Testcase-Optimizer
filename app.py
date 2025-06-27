@@ -1,16 +1,16 @@
-import pandas as pd
-import os
-from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
+import os
+import pandas as pd
+from dotenv import load_dotenv
 
 
 load_dotenv('app.env')
-
 huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
 
 if huggingface_api_key is None:
     print("API ключ Hugging Face не знайдений! Перевірте файл .env.")
     exit()
+
 
 df = pd.read_csv("samples/CSV-файли/sample_testcases.csv")
 testcases = df.to_dict(orient="records")
@@ -19,15 +19,16 @@ prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how 
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
-from huggingface_hub import InferenceClient
-
 client = InferenceClient(token=huggingface_api_key)
 
 response = client.text_generation(
     model="google/gemma-3n-E2B-it",
-    inputs=prompt,
-    max_new_tokens=200,
+    prompt=prompt,
+    max_new_tokens=300,
+    temperature=0.7,
+    top_p=0.9,
 )
 
-print(response.generated_text)
+print("\n--- Hugging Face Chat Response ---\n")
+print(response)
 
