@@ -10,7 +10,11 @@ prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how 
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
-response = openai.ChatCompletion.create(
+from openai import OpenAI
+
+client = OpenAI()
+
+response = client.chat.completions.create(
     model="gpt-4",
     messages=[{"role": "user", "content": prompt}],
     temperature=0.2
