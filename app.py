@@ -11,18 +11,22 @@ if huggingface_api_key is None:
     print("API ключ Hugging Face не знайдений! Перевірте файл .env.")
     exit()
 
-
 df = pd.read_csv("samples/CSV-файли/sample_testcases.csv")
 testcases = df.to_dict(orient="records")
+
 
 prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how to improve:\n\n"
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
-client = InferenceClient(token=huggingface_api_key)
+
+client = InferenceClient(
+    model="tiiuae/falcon-7b-instruct",
+    token=huggingface_api_key
+)
+
 
 response = client.text_generation(
-    model="google/gemma-3n-E2B-it",
     prompt=prompt,
     max_new_tokens=300,
     temperature=0.7,
@@ -31,4 +35,3 @@ response = client.text_generation(
 
 print("\n--- Hugging Face Chat Response ---\n")
 print(response)
-
