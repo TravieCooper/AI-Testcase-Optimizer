@@ -1,11 +1,18 @@
-import openai
 import pandas as pd
-
-from dotenv import load_dotenv
-load_dotenv("app.env")
-
 import os
-openai_api_key = os.getenv("OPENAI_API_KEY")
+from dotenv import load_dotenv
+from huggingface_hub import InferenceApi
+
+# Завантаження змінних середовища з файлу .env
+load_dotenv('app.env')
+
+# API ключ Hugging Face
+huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
+
+if huggingface_api_key is None:
+    print("API ключ Hugging Face не знайдений! Перевірте файл .env.")
+    exit()
+
 df = pd.read_csv("samples/CSV-файли/sample_testcases.csv")
 testcases = df.to_dict(orient="records")
 
@@ -13,15 +20,10 @@ prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how 
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
-from openai import OpenAI
+huggingface_inference = InferenceApi(repo_id="your_hugging_face_model", token=huggingface_api_key)
 
-client = OpenAI()
+huggingface_response = huggingface_inference(inputs=prompt)
 
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}],
-    temperature=0.2
-)
+print("\n--- Hugging Face Response ---\n")
+print(huggingface_response['generated_text'])
 
-print("\n--- AI Response ---\n")
-print(response['choices'][0]['message']['content'])
