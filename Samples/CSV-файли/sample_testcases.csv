@@ -1,4 +1,4 @@
-ID,Title,Steps,Expected Results
+ID,Title,Steps,Expected Result
 TC001,Login with valid credentials,Enter correct username and password,User is logged in
 TC002,Login with invalid password,Enter correct username and wrong password,Error message is shown
 TC003,Login with empty fields,Leave username and password empty,Validation error message is shown
