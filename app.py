@@ -1,6 +1,9 @@
 import openai
 import pandas as pd
 
+from dotenv import load_dotenv
+load_dotenv("app.env")
+
 import os
 openai_api_key = os.getenv("OPENAI_API_KEY")
 df = pd.read_csv("samples/CSV-файли/sample_testcases.csv")
