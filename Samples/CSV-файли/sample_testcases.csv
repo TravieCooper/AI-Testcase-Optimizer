@@ -1,3 +1,5 @@
-TestCase,Description
-TC001,Check login with valid credentials
-TC002,Check login with invalid password
+ID,Title,Steps,Expected Results
+TC001,Login with valid credentials,Enter correct username and password,User is logged in
+TC002,Login with invalid password,Enter correct username and wrong password,Error message is shown
+TC003,Login with empty fields,Leave username and password empty,Validation error message is shown
+TC004,Logout functionality,Click logout button,User is logged out and redirected to login page
