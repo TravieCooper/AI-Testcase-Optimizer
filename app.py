@@ -19,14 +19,16 @@ prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how 
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
+from huggingface_hub import InferenceClient
 
-huggingface_inference = InferenceClient(token=huggingface_api_key)
 
-huggingface_response = huggingface_inference.text_generation(
-    model="google/gemma-3n-E2B-it",  
-    input=prompt,
+client = InferenceClient(token=huggingface_api_key)
+
+response = client.chat.completions.create(
+    model="google/gemma-3n-E2B-it",
+    messages=[{"role": "user", "content": prompt}],
 )
 
 
-print("\n--- Hugging Face Response ---\n")
-print(huggingface_response['generated_text'])
+print("\n--- Hugging Face Chat Response ---\n")
+print(response.choices[0].message.content)
