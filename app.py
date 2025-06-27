@@ -17,18 +17,18 @@ prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how 
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
-# Використовуємо перевірену модель
+# працююча модель для chat
 client = InferenceClient(
     model="HuggingFaceH4/zephyr-7b-beta",
     token=huggingface_api_key
 )
 
-response = client.text_generation(
-    prompt=prompt,
-    max_new_tokens=300,
+response = client.chat_completion(
+    messages=[{"role": "user", "content": prompt}],
+    max_tokens=300,
     temperature=0.7,
     top_p=0.9,
 )
 
-print("\n--- Hugging Face Response ---\n")
-print(response)
+print("\n--- Hugging Face Chat Response ---\n")
+print(response.choices[0].message["content"])
