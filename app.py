@@ -17,7 +17,7 @@ prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how 
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
-# працююча модель для chat
+
 client = InferenceClient(
     model="HuggingFaceH4/zephyr-7b-beta",
     token=huggingface_api_key
