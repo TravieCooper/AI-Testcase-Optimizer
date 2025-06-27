@@ -6,7 +6,6 @@ from huggingface_hub import InferenceClient
 
 load_dotenv('app.env')
 
-# API ключ Hugging Face
 huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
 
 if huggingface_api_key is None:
@@ -20,12 +19,12 @@ prompt = "Analyze these test cases. Point out duplicates, inaccuracies, and how 
 for case in testcases:
     prompt += f"ID: {case['ID']}, Title: {case['Title']}, Steps: {case['Steps']}, Expected: {case['Expected Result']}\n"
 
-# Використання Hugging Face для генерації відповіді
+
 huggingface_inference = InferenceClient(token=huggingface_api_key)
 
 huggingface_response = huggingface_inference.text_generation(
-    model="google/gemma-3n-E2B-it",  # Заміна на вашу модель
-    inputs=prompt,
+    model="google/gemma-3n-E2B-it",  
+    input=prompt,
 )
 
 
