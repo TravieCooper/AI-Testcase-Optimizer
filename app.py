@@ -21,14 +21,13 @@ for case in testcases:
 
 from huggingface_hub import InferenceClient
 
-
 client = InferenceClient(token=huggingface_api_key)
 
-response = client.chat.completions.create(
+response = client.text_generation(
     model="google/gemma-3n-E2B-it",
-    messages=[{"role": "user", "content": prompt}],
+    inputs=prompt,
+    max_new_tokens=200,
 )
 
+print(response.generated_text)
 
-print("\n--- Hugging Face Chat Response ---\n")
-print(response.choices[0].message.content)
