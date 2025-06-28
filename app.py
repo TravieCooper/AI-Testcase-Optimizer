@@ -1,43 +1,32 @@
 from flask import Flask, render_template, request
+from huggingface_hub import InferenceClient
 import os
 from dotenv import load_dotenv
-from huggingface_hub import InferenceClient
-
-
-app = Flask(__name__)
-
 
 load_dotenv("app.env")
-huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
 
-
-if huggingface_api_key is None:
-    raise ValueError("HUGGINGFACE_API_KEY не знайдено в .env файлі!")
-
-
-client = InferenceClient(token=huggingface_api_key)
+app = Flask(__name__)
+client = InferenceClient(token=os.getenv("HUGGINGFACE_API_KEY"))
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    response_text = ""
+    answer = ""
     if request.method == "POST":
-        user_prompt = request.form["user_input"]
+        user_input = request.form["user_input"]
 
-        
         try:
             response = client.text_generation(
-                model="tiiuae/falcon-7b-instruct",
-                prompt=user_prompt,
+                model="tiiuae/falcon-7b-instruct",  # або інша модель, яка точно підтримує text-generation
+                prompt=user_input,
                 max_new_tokens=300,
                 temperature=0.7,
                 top_p=0.9,
             )
-            response_text = response
+            answer = response
         except Exception as e:
-            response_text = f"⚠️ Помилка: {str(e)}"
+            answer = f"Помилка: {str(e)}"
 
-    return render_template("index.html", response=response_text)
-
+    return render_template("index.html", answer=answer)
 
 if __name__ == "__main__":
     app.run(debug=True)
