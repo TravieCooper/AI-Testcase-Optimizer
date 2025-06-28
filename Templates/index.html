@@ -1,1 +1,43 @@
-zz
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Асистент для Тест-Кейсів</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        pre {
+            background: #eee;
+            padding: 15px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 Введи запит або тест-кейси:</h1>
+    <form method="POST">
+        <textarea name="user_input" placeholder="Наприклад: проаналізуй ці тест-кейси..."></textarea><br>
+        <button type="submit">Надіслати</button>
+    </form>
+
+    {% if response %}
+        <h2>🔎 Відповідь:</h2>
+        <pre>{{ response }}</pre>
+    {% endif %}
+</body>
+</html>
