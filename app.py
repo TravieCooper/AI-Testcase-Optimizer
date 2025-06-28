@@ -25,9 +25,15 @@ def index():
                 top_p=0.9,
             )
             
-            # Зберігаємо результат у змінну, витягуючи відповідь з response
-            answer = response["generated_text"] if "generated_text" in response else "Відповідь не знайдена."
-            
+            # Логування повної відповіді
+            print("API Response:", response)
+
+            # Перевіряємо, чи є в відповіді необхідне поле "generated_text"
+            if "generated_text" in response:
+                answer = response["generated_text"]
+            else:
+                answer = "Відповідь не знайдена."
+
         except Exception as e:
             # Якщо виникає помилка, виводимо її
             answer = f"Помилка: {str(e)}"
@@ -37,3 +43,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
