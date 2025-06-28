@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 from huggingface_hub import InferenceClient
 import os
@@ -16,17 +17,17 @@ def index():
         user_input = request.form["user_input"]
 
         try:
-            # Тут використовуємо conversational
-          response = client.text_generation(
-    model="google/flan-t5-large",
-    prompt=user_input,
-    max_new_tokens=300,
-    temperature=0.7,
-    top_p=0.9,
-)
+            # Використовуємо text_generation з моделлю, що це підтримує
+            response = client.text_generation(
+                model="google/flan-t5-large",
+                prompt=user_input,
+                max_new_tokens=300,
+                temperature=0.7,
+                top_p=0.9,
+            )
 
-            # Відповідь у полі "generated_text"
-            if "generated_text" in response:
+            # Якщо відповідь — об'єкт, який підтримує доступ за ключем
+            if isinstance(response, dict) and "generated_text" in response:
                 answer = response["generated_text"]
             else:
                 answer = str(response)
