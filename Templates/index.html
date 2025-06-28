@@ -2,45 +2,20 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>AI Тест-Кейс Аналізатор</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 40px auto;
-            max-width: 800px;
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-            margin-top: 10px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 20px;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-        .response {
-            background-color: #f0f0f0;
-            padding: 15px;
-            margin-top: 20px;
-            border-left: 4px solid #4caf50;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Тестувальник</title>
 </head>
 <body>
     <h1>🤖 Введи запит або тест-кейси:</h1>
-    <form method="post">
-        <textarea name="user_input" placeholder="Наприклад: проаналізуй ці тест-кейси..."></textarea><br>
+    
+    <form method="POST">
+        <textarea name="user_input" rows="4" cols="50" placeholder="Наприклад: проаналізуй ці тест-кейси..."></textarea><br>
         <button type="submit">Надіслати</button>
     </form>
 
     {% if answer %}
-    <div class="response">
-        <h2>🤖 Відповідь:</h2>
+        <h2>Відповідь:</h2>
         <p>{{ answer }}</p>
-    </div>
     {% endif %}
 </body>
 </html>
