@@ -12,21 +12,22 @@ client = InferenceClient(token=os.getenv("HUGGINGFACE_API_KEY"))
 @app.route("/", methods=["GET", "POST"])
 def index():
     answer = ""
-    if request.method == "POST":
-        user_input = request.form["user_input"]
+   if request.method == "POST":
+    user_input = request.form["user_input"]
 
-        try:
-            # Виклик моделі для генерації тексту
-            response = client.text_generation(
-                model="tiiuae/falcon-7b-instruct",  # Використовуємо модель Falcon
-                prompt=user_input,
-                max_new_tokens=300,
-                temperature=0.7,
-                top_p=0.9,
-            )
-            
-            # Логування повної відповіді
-            print("API Response:", response)
+    try:
+        response = client.text_generation(
+            model="tiiuae/falcon-7b-instruct",
+            prompt=user_input,
+            max_new_tokens=300,
+            temperature=0.7,
+            top_p=0.9,
+        )
+        answer = response
+    except Exception as e:
+        import traceback
+        traceback.print_exc()  # ← це покаже повну помилку в терміналі
+        answer = f"Помилка: {str(e)}"
 
             # Перевіряємо, чи є в відповіді необхідне поле "generated_text"
             if "generated_text" in response:
