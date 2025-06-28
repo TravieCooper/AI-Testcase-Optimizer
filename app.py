@@ -17,13 +17,13 @@ def index():
 
         try:
             # Тут використовуємо conversational
-            response = client.conversational(
-                model="tiiuae/falcon-7b-instruct",
-                inputs={"past_user_inputs": [], "generated_responses": [], "text": user_input},
-                temperature=0.7,
-                top_p=0.9,
-                max_new_tokens=300
-            )
+          response = client.text_generation(
+    model="google/flan-t5-large",
+    prompt=user_input,
+    max_new_tokens=300,
+    temperature=0.7,
+    top_p=0.9,
+)
 
             # Відповідь у полі "generated_text"
             if "generated_text" in response:
