@@ -23,8 +23,9 @@ def index():
                 top_p=0.9,
             )
             answer = response  # просто виводимо результат
-        except Exception as e:
-            traceback.print_exc()
+         except Exception as e:
+            import traceback
+            traceback.print_exc()  # ← це покаже помилку у терміналі
             answer = f"Помилка: {str(e)}"
     return render_template("index.html", answer=answer)
 
