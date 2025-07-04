@@ -14,17 +14,18 @@ def index():
     answer = ""
     if request.method == "POST":
         user_input = request.form["user_input"]
-
         try:
-            response = client.text_to_text(
+            response = client.text_generation(
                 model="google/flan-t5-large",
-                inputs=user_input,
+                prompt=user_input,
+                max_new_tokens=300,
+                temperature=0.7,
+                top_p=0.9,
             )
-            answer = response
+            answer = response  # просто виводимо результат
         except Exception as e:
             traceback.print_exc()
             answer = f"Помилка: {str(e)}"
-
     return render_template("index.html", answer=answer)
 
 if __name__ == "__main__":
