@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 from huggingface_hub import InferenceClient
 import os
@@ -16,16 +17,14 @@ def index():
         user_input = request.form["user_input"]
 
         try:
-           
             response = client.text_generation(
-                model="distilgpt2",  # Простий варіант моделі GPT-2
+                model="gpt2",  
                 prompt=user_input,
                 max_new_tokens=300,
                 temperature=0.7,
                 top_p=0.9,
             )
 
-            
             if "generated_text" in response:
                 answer = response["generated_text"]
             else:
@@ -39,4 +38,3 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
