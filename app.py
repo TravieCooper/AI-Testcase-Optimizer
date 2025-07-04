@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request
 from huggingface_hub import InferenceClient
 import os
@@ -17,18 +16,20 @@ def index():
         user_input = request.form["user_input"]
 
         try:
+            # Спрощена модель для перевірки
             response = client.text_generation(
-                model="gpt2",  
+                model="gpt2",  # Проста модель GPT-2 для генерації тексту
                 prompt=user_input,
-                max_new_tokens=300,
+                max_new_tokens=50,  # обмежуємо кількість токенів
                 temperature=0.7,
                 top_p=0.9,
             )
-
+            
+            # Перевірка на наявність "generated_text"
             if "generated_text" in response:
                 answer = response["generated_text"]
             else:
-                answer = str(response)
+                answer = "Відповідь не знайдена."
 
         except Exception as e:
             traceback.print_exc()
