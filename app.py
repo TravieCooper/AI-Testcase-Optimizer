@@ -16,9 +16,9 @@ def index():
         user_input = request.form["user_input"]
 
         try:
-            # Спрощена модель для перевірки
+            # Використовуємо модель, яка має підтримку
             response = client.text_generation(
-                model="gpt2",  # Проста модель GPT-2 для генерації тексту
+                model="gpt2",  # Залишаємо просту модель GPT-2 для перевірки
                 prompt=user_input,
                 max_new_tokens=50,  # обмежуємо кількість токенів
                 temperature=0.7,
