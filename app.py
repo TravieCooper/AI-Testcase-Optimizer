@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import traceback
 
+# Завантаження змінних оточення з файлу .env
 load_dotenv("app.env")
 
 app = Flask(__name__)
@@ -16,14 +17,21 @@ def index():
         user_input = request.form["user_input"]
 
         try:
+            # Використовуємо дефолтну модель для text-generation
             response = client.text_generation(
-                model="tiiuae/falcon-7b-instruct",
+                model="gpt2",  # Простий варіант моделі GPT-2
                 prompt=user_input,
                 max_new_tokens=300,
                 temperature=0.7,
                 top_p=0.9,
             )
-            answer = response
+
+            # Перевірка наявності поля "generated_text" в відповіді
+            if "generated_text" in response:
+                answer = response["generated_text"]
+            else:
+                answer = str(response)
+
         except Exception as e:
             traceback.print_exc()
             answer = f"Помилка: {str(e)}"
