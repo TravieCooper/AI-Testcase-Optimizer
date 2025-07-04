@@ -14,20 +14,22 @@ def index():
     answer = ""
     if request.method == "POST":
         user_input = request.form["user_input"]
+
         try:
             response = client.text_generation(
-                model="google/flan-t5-large",
+                model="tiiuae/falcon-7b-instruct",
                 prompt=user_input,
                 max_new_tokens=300,
                 temperature=0.7,
                 top_p=0.9,
             )
-            answer = response  # просто виводимо результат
-         except Exception as e:
-            import traceback
-            traceback.print_exc()  # ← це покаже помилку у терміналі
+            answer = response
+        except Exception as e:
+            traceback.print_exc()
             answer = f"Помилка: {str(e)}"
+
     return render_template("index.html", answer=answer)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
