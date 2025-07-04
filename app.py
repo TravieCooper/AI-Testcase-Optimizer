@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 import traceback
 
-# Завантаження змінних оточення з файлу .env
 load_dotenv("app.env")
 
 app = Flask(__name__)
@@ -17,15 +16,16 @@ def index():
         user_input = request.form["user_input"]
 
         try:
-         
-           response = client.text_generation(
-      model="distilgpt2",  # Це доступна модель GPT-2
-      prompt=user_input,
-      max_new_tokens=300,
-      temperature=0.7,
-      top_p=0.9,
-        )
+           
+            response = client.text_generation(
+                model="distilgpt2",  # Простий варіант моделі GPT-2
+                prompt=user_input,
+                max_new_tokens=300,
+                temperature=0.7,
+                top_p=0.9,
+            )
 
+            
             if "generated_text" in response:
                 answer = response["generated_text"]
             else:
