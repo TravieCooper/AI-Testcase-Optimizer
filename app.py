@@ -17,8 +17,8 @@ def index():
 
         try:
             response = client.text_to_text(
-                model="google/flan-t5-large",
-                inputs=user_input,
+            model="google/flan-t5-large",
+            inputs=user_input,
             )
             answer = response
         except Exception as e:
