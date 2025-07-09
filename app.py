@@ -1,31 +1,42 @@
 from flask import Flask, render_template, request
-from transformers import pipeline
-import os
-from dotenv import load_dotenv
-
-# Завантажуємо .env для ключа
-load_dotenv("app.env")
+from transformers import pipeline, set_seed
+import torch
 
 app = Flask(__name__)
 
-# Використовуємо pipeline з Hugging Face для генерації тексту
-generator = pipeline("text-generation", model="gpt2", tokenizer="gpt2")
+# Налаштування моделі GPT-2
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Device set to use {device}")
+generator = pipeline("text-generation", model="gpt2", tokenizer="gpt2", device=0 if device.type == "cuda" else -1)
+set_seed(42)
+
+def generate_response(prompt):
+    result = generator(
+        prompt,
+        max_new_tokens=256,
+        do_sample=True,
+        top_k=50,
+        top_p=0.95,
+        temperature=0.9,
+        truncation=True,
+        pad_token_id=50256
+    )
+    return result[0]["generated_text"]
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    answer = ""
+    result = ""
     if request.method == "POST":
-        user_input = request.form["user_input"]
-        
-        try:
-            # Використовуємо pipeline для генерації тексту
-            response = generator(user_input, max_length=100, num_return_sequences=1)
-            answer = response[0]['generated_text']
-        except Exception as e:
-            answer = f"Помилка: {str(e)}"
+        prompt = request.form["prompt"].strip()
 
-    return render_template("index.html", answer=answer)
+        if len(prompt) < 10:
+            result = "⚠️ Введений текст занадто короткий. Будь ласка, введіть більше деталей."
+        else:
+            result = generate_response(prompt)
+
+    return render_template("index.html", result=result)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
