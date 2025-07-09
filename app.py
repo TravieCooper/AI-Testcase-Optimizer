@@ -4,10 +4,10 @@ import os
 
 app = Flask(__name__)
 
-# 🔐 Встав API ключ від Groq
-openai.api_key = "gsk_ВАШ_GROQ_API_КЛЮЧ"
 
-# ✏️ Основний маршрут
+openai.api_key = "gsk_ВАШ_API_КЛЮЧ"  # Замініть на ваш API ключ
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     response_text = ""
@@ -19,7 +19,7 @@ def index():
         else:
             try:
                 completion = openai.ChatCompletion.create(
-                    model="openchat/openchat-3.5",
+                    model="openchat/openchat-3.5",  # Якщо це OpenAI модель
                     messages=[
                         {"role": "system", "content": "Ти допомагаєш аналізувати тест-кейси."},
                         {"role": "user", "content": prompt}
@@ -27,8 +27,11 @@ def index():
                     temperature=0.7,
                     max_tokens=512
                 )
-                response_text = completion.choices[0].message.content.strip()
+                response_text = completion.choices[0].message["content"].strip()
             except Exception as e:
                 response_text = f"❌ Помилка: {str(e)}"
 
     return render_template("index.html", response=response_text)
+
+if __name__ == "__main__":
+    app.run(debug=True)
