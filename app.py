@@ -1,38 +1,35 @@
 print(">>> Запуск app.py")
 from flask import Flask, render_template, request
-import os
 import openai
+import os
 
 app = Flask(__name__)
 
-# Встанови свій GROQ API ключ
-openai.api_key = "ТУТ_ТВІЙ_GROQ_API_KEY"
-openai.api_base = "https://api.groq.com/openai/v1"
+# 🔐 Встав API ключ від Groq
+openai.api_key = "gsk_ВАШ_GROQ_API_КЛЮЧ"
 
+# ✏️ Основний маршрут
 @app.route("/", methods=["GET", "POST"])
 def index():
-    response = ""
+    response_text = ""
     if request.method == "POST":
         prompt = request.form["prompt"]
+
         if not prompt or len(prompt.strip()) < 10:
-            response = "❗ Введіть більш детальний запит (мін. 10 символів)."
+            response_text = "⚠️ Введіть запит довжиною не менше 10 символів."
         else:
             try:
                 completion = openai.ChatCompletion.create(
                     model="openchat/openchat-3.5",
                     messages=[
-                        {"role": "system", "content": "Ти QA-спеціаліст. Аналізуй тест-кейси, вказуй помилки або покращення."},
+                        {"role": "system", "content": "Ти допомагаєш аналізувати тест-кейси."},
                         {"role": "user", "content": prompt}
                     ],
                     temperature=0.7,
                     max_tokens=512
                 )
-                response = completion.choices[0].message["content"]
+                response_text = completion.choices[0].message.content.strip()
             except Exception as e:
-                response = f"❌ Помилка: {str(e)}"
-    return render_template("index.html", response=response)
+                response_text = f"❌ Помилка: {str(e)}"
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
+    return render_template("index.html", response=response_text)
