@@ -2,20 +2,61 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Тестувальник</title>
+    <title>Аналізатор Тест-Кейсів</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-    <h1>🤖 Введи запит або тест-кейси:</h1>
-    
-    <form method="POST">
-        <textarea name="user_input" rows="4" cols="50" placeholder="Наприклад: проаналізуй ці тест-кейси..."></textarea><br>
+    <h1>Аналізатор Тест-Кейсів</h1>
+
+    <form method="POST" onsubmit="return validateInput()">
+        <label for="prompt">Введи запит або тест-кейси:</label><br>
+        <textarea name="prompt" id="prompt" rows="10" required></textarea><br>
         <button type="submit">Надіслати</button>
     </form>
 
-    {% if answer %}
-        <h2>Відповідь:</h2>
-        <p>{{ answer }}</p>
+    {% if result %}
+        <div class="output">
+            <strong>Відповідь:</strong><br>
+            {{ result }}
+        </div>
     {% endif %}
+
+    <script>
+        function validateInput() {
+            const text = document.getElementById('prompt').value.trim();
+            if (text.length < 10) {
+                alert("Будь ласка, введіть запит або тест-кейси довжиною не менше 10 символів.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
